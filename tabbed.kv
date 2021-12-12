@@ -1,135 +1,129 @@
-<MainMenu>:
-    BoxLayout: 
-        orientation: 'vertical' 
-        
-        Button:
-            text: 'Просмотр данных'
-            font_size: '25'
-            on_press:
-                root.manager.transition.direction = 'left'
-                root.manager.current = 'browse'
-            
-        Button:
-            text: 'Отправка в БП'
-            font_size: '25'
-            on_press:
-                root.manager.transition.direction = 'left'
-                root.manager.current = 'second_screen'
-            
-        Button:
-            text: 'Приход из БП'
-            font_size: '25'
-            on_press: 
-                root.manager.transition.direction = 'left'
-                root.manager.current = 'second_screen'
-        
-<SecondScreen>:
-    BoxLayout: 
-        orientation: 'vertical' 
-
-        Button:
-            text: '<--Назад в предыдущее меню'
-            size_hint: (1, None)
-            height: '30'
-            font_size: '15'
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current = 'main_menu'
-            
-        TextInput:
-            id: number_detail
-            font_size: '25'
-            hint_text: 'Номер детали'
-            size_hint: (1, None)
-            height: 40
-            multiline: False
-            input_filter: 'float'
-            
-        Spinner:
-            id: name_detail
-            text: 'Наименование'
-            values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
-            size_hint: (None, None)
-            font_size: '22'
-            pos_hint: {'center_x': .5}
-            size: 400, 44
-           
-        TextInput:
-            id: quantity
-            font_size: '25'
-            hint_text: 'Количество'
-            size_hint: (1, None)
-            height: 40
-            multiline: False
-            input_filter: 'int'
-                
-        TextInput:
-            id: comment
-            font_size: '25'
-            hint_text: 'Комментарий'
-            size_hint: (1, None)
-            height: 40
-            multiline: False
-
-        Button:
-            text: 'Добавить'
-            font_size: '25'
-            on_press: root.btn_add_press()
-            size_hint: (1, None)
-            height: 260
-            
-        Button:
-            text: 'exit'
-            font_size: '25'
-            on_press: quit()
-            size_hint: (1, None)
-            height: 210
-
-<Tab>:
-
-
-<Browse>:
-	size_hint: .5, .5
-
+<Main>:
+    size_hint: 1, 1
     pos_hint: {'center_x': .5, 'center_y': .5}
-
     do_default_tab: False
 
-	TabbedPanelItem:
+    TabbedPanelItem:
+        text: 'из БП'
+        BoxLayout:
+            orientation: 'vertical'
 
-        text: 'Tab 1'
+            TextInput:
+                id: number_detail
+                font_size: '25'
+                hint_text: 'Номер детали'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
+                input_filter: 'float'
+                
+            Spinner:
+                id: name_detail
+                text: 'Наименование'
+                values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+                size_hint: (None, None)
+                font_size: '22'
+                pos_hint: {'center_x': .5}
+                size: 400, 44
+                
+            TextInput:
+                id: quantity
+                font_size: '25'
+                hint_text: 'Количество'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
+                input_filter: 'int'
 
-        Label:
+            TextInput:
+                id: comment
+                font_size: '25'
+                hint_text: 'Комментарий'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
 
-            text: "First tab"
+            Button:
+                text: 'Из Пикино'
+                font_size: '25'
+                on_press: root.btn_add_press()
+                size_hint: (1, None)
+                height: 260
 
-  
+            Button:
+                text: 'exit'
+                font_size: '25'
+                on_press: quit()
+                size_hint: (1, None)
+                height: 210
+
 
     # Создать вторую вкладку
 
     TabbedPanelItem:
-
-        text: 'Tab 2'
-
+        text: 'в БП'
         BoxLayout:
+            orientation: 'vertical'
 
-            Label:
+            TextInput:
+                id: number_detail
+                font_size: '25'
+                hint_text: 'Номер детали'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
+                input_filter: 'float'
+                
+            Spinner:
+                id: name_detail
+                text: 'Наименование'
+                values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+                size_hint: (None, None)
+                font_size: '22'
+                pos_hint: {'center_x': .5}
+                size: 400, 44
+                
+            TextInput:
+                id: quantity
+                font_size: '25'
+                hint_text: 'Количество'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
+                input_filter: 'int'
 
-                text: 'Press button'
+            TextInput:
+                id: comment
+                font_size: '25'
+                hint_text: 'Комментарий'
+                size_hint: (1, None)
+                height: 40
+                multiline: False
 
             Button:
+                text: 'В Пикино'
+                font_size: '25'
+                on_press: root.btn_add_press()
+                size_hint: (1, None)
+                height: 260
 
-                text: 'Click it'
-   		
-# <TableWindow>:
-#    BoxLayout:
-#		orientation: 'vertical'
-#        Button:
-#            text: '<--Назад в предыдущее меню'
-#            size_hint: (1, None)
-#            height: '30'
-#            font_size: '15'
+            Button:
+                text: 'exit'
+                font_size: '25'
+                on_press: quit()
+                size_hint: (1, None)
+                height: 210
+                
+                
+   # третья вкладка
+    TabbedPanelItem:
+        text: 'Общая'
+        
+   # четвертая вкладка
+    TabbedPanelItem:
+        text: 'По деталям'        
+        
+   # пятая вкладка
+    TabbedPanelItem:
+        text: 'По дате'
 
-#            on_press:
-#                root.manager.transition.direction = 'right'
-#                root.manager.current = 'browse'
