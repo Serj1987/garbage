@@ -1,0 +1,274 @@
+<MainMenu>:
+    BoxLayout: 
+        orientation: 'vertical' 
+        
+        Button:
+            text: 'Просмотр данных'
+            font_size: '90'
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'table_all'
+            
+        Button:
+            text: 'Отправка в БП'
+            font_size: '90'
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'send_screen'
+            
+        Button:
+            text: 'Приход из БП'
+            font_size: '90'
+            on_press: 
+                root.manager.transition.direction = 'left'
+                root.manager.current = 'arrive_screen'
+        
+	
+<SendScreen>:
+	update_lbl_sent: update_lbl_sent
+    BoxLayout: 
+        orientation: 'vertical' 
+
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '70'
+            font_size: '45'
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+            
+        TextInput:
+            id: number_detail
+            font_size: '50'
+            hint_text: 'Номер детали'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+            input_filter: 'float'
+            
+        Spinner:
+            id: name_detail
+            text: 'Наименование'
+            values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+            font_size: '50'
+            pos_hint: {'center_x': .5}
+            height: 9
+           
+        TextInput:
+            id: quantity
+            font_size: '50'
+            hint_text: 'Количество'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+            input_filter: 'int'
+                
+        TextInput:
+            id: comment
+            font_size: '50'
+            hint_text: 'Комментарий'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+
+        Button:
+            text: 'Добавить в приходы'
+            font_size: '75'
+            on_press: root.add_arrive()
+            size_hint: (1, None)
+            height: 260
+
+		Label:
+		    id: update_lbl_sent
+			text: 'последняя деталь:' #, number_detail.text
+            font_size: '45'
+            size_hint: (1, None)
+            height:60
+            color: 'black'
+    
+        Button:
+            text: 'exit'
+            font_size: '45'
+            on_press: quit()
+            size_hint: (1, None)
+            height: 540
+	
+<ArriveScreen>:
+	update_lbl_arr: update_lbl_arr
+    BoxLayout: 
+        orientation: 'vertical' 
+
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '60'
+            font_size: '45'
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+ 
+        TextInput:
+            id: number_detail
+            font_size: '50'
+            hint_text: 'Номер детали'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+            input_filter: 'float'
+            
+        Spinner:
+            id: name_detail
+            text: 'Наименование'
+            values: 'Букса', 'Вилка', 'Голова штока', 'Голова цилиндра', 'Поршень', 'Тех.узел', 'Труба защитная', 'Труба цилиндра', 'Фланец', 'Цилиндр', 'Шайба', 'Шток'
+            font_size: '50'
+            pos_hint: {'center_x': .5}
+            height: 9
+           
+        TextInput:
+            id: quantity
+            font_size: '50'
+            hint_text: 'Количество'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+            input_filter: 'int'
+                
+        TextInput:
+            id: comment
+            font_size: '50'
+            hint_text: 'Комментарий'
+            size_hint: (1, None)
+            height: 90
+            multiline: False
+
+        Button:
+            text: 'Добавить в приходы'
+            font_size: '75'
+            on_press: root.add_arrive()
+            size_hint: (1, None)
+            height: 260
+
+
+		Label:
+		    id: update_lbl_arr
+			text: 'последняя деталь:' #, number_detail.text
+            font_size: '45'
+            size_hint: (1, None)
+            height:60
+            color: 'black'
+    
+
+        Button:
+            text: 'exit'
+            font_size: '45'
+            on_press: quit()
+            size_hint: (1, None)
+            height: 540
+
+
+<TableAllWindow>:
+    BoxLayout:
+		id: all_table_layout
+        orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '50'
+            font_size: '45'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'main_menu'
+				root.remove_table()
+
+        TextInput:
+            id: input_det
+            font_size: '55'
+            hint_text: 'номер или дата(гггг-мм-дд)'
+            size_hint: (1, None)
+            height: '95'
+            multiline: False
+
+        Button:
+			text: 'Смотреть по детали'
+			size_hint: (1, None)
+			height: '95'
+			font_size: '50'
+			on_press:
+				root.manager.transition.direction = 'left'
+		    	root.manager.current = 'table_det'
+                root.remove_table()
+        Button:
+            text: 'Смотреть по дате'
+            size_hint: (1, None)
+            height: '95'
+            font_size: '50'
+            on_press:
+		        root.manager.transition.direction = 'left'
+		    	root.manager.current = 'table_date'
+                root.remove_table()
+        Button:
+			text: 'Удалить данные'
+            size_hint: (1, None)
+            height: '95'
+            font_size: '50'
+            on_press:
+		        root.manager.transition.direction = 'left'
+		    	root.manager.current = 'delete_string'
+                root.remove_table()
+
+<DeleteString>:
+    BoxLayout:
+        id: del_string_layout
+        orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '55'
+            font_size: '42'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'table_all'
+                root.remove_table()
+        Button:
+            text: 'удалить'
+            size_hint: (1, None)
+            height: '55'
+            font_size: '42'
+
+            on_press:
+                root.on_del_press()
+
+
+<TableDetWindow>:
+    BoxLayout:
+        id: det_layout
+		orientation: 'vertical'
+	    Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '55'
+            font_size: '42'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'table_all'
+                root.remove_tables()
+
+<TableDateWindow>:
+    BoxLayout:
+		id: date_layout
+        orientation: 'vertical'
+        Button:
+            text: '<--Назад в предыдущее меню'
+            size_hint: (1, None)
+            height: '55'
+            font_size: '42'
+
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'table_all'
+                root.remove_tables()
+ 
