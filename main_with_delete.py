@@ -90,6 +90,7 @@ class TableAllWindow(Screen):
 
         layout = AnchorLayout()
         self.data_tables = MDDataTable(
+            check=True,
             use_pagination=True,
             rows_num=10,
             pagination_menu_pos='auto',
@@ -117,6 +118,9 @@ class TableAllWindow(Screen):
 
     def remove_table(self):
         self.ids.all_table_layout.remove_widget(self.data_tables)
+
+    def on_blablabla(self):
+        print("####", self.data_tables.get_row_checks())
 
 
 class TableDetWindow(Screen):
