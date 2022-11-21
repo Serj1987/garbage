@@ -13,18 +13,15 @@ fun hide() {
         println("Input image file:")
         val inputImageFile: String = readln()
         val imageFile = File(inputImageFile)  // open file of source picture
-        val image: BufferedImage = ImageIO.read(imageFile)
+        val sourceImage = ImageIO.read(imageFile)
 
         println("Output image file:")
         val outputImageFile: String = readln()
-        val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        val newImage = BufferedImage(sourceImage.width, sourceImage.height, BufferedImage.TYPE_INT_RGB)
         val newImageFile = File(outputImageFile)  // open/create a new picture fail
 
         println("Input Image: $inputImageFile")
         println("Output Image: $outputImageFile")
-
-        val inputFile = File(inputImageFile)
-        val sourceImage = ImageIO.read(inputFile)
 
         for (x in 0 until sourceImage.width) {
             for (y in 0 until sourceImage.height) {
@@ -36,7 +33,7 @@ fun hide() {
                 val redNew = red.substring(0..red.length - 2) + "1"  // newcolors to binary and cahnge the last to character "1"
                 val greNew = gre.substring(0..gre.length - 2) + "1"
                 val bluNew = blu.substring(0..blu.length - 2) + "1"
-                
+
                 val setColor = Color(redNew.toInt(2), greNew.toInt(2), bluNew.toInt(2))
                 newImage.setRGB(x, y, setColor.rgb)  // set new color in newImage
             }
