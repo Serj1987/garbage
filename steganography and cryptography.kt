@@ -1,66 +1,72 @@
-package cryptography
 import java.awt.Color
-import java.io.File
 import java.awt.image.BufferedImage
+import java.io.File
+import javax.imageio.IIOException
 import javax.imageio.ImageIO
-
-import java.io.FileNotFoundException
 
 fun printTask() {
     println("Task (hide, show, exit):")
 }
 
 fun hide() {
-    try {
+    try{
         println("Input image file:")
-        val inputImageFile = readLine().toString()
+        val inputImageFile: String = readln()
+        val imageFile = File(inputImageFile)  // open file of source picture
+        val image: BufferedImage = ImageIO.read(imageFile)
+
         println("Output image file:")
-        val outputImageFile = readln().toString()
+        val outputImageFile: String = readln()
+        val newImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        val newImageFile = File(outputImageFile)  // open/create a new picture fail
+
         println("Input Image: $inputImageFile")
         println("Output Image: $outputImageFile")
 
         val inputFile = File(inputImageFile)
-        val myImage = ImageIO.read(inputFile)
+        val sourceImage = ImageIO.read(inputFile)
 
-        for (x in 0 until myImage.width) {
-            for (y in 0 until myImage.height) {
-                val color = Color(myImage.getRGB(x, y))
-                val red = color.red.toString(2)
+        for (x in 0 until sourceImage.width) {
+            for (y in 0 until sourceImage.height) {
+                val color = Color(sourceImage.getRGB(x, y))
+                val red = color.red.toString(2)  // get colors from source image and take it to binary
                 val gre = color.green.toString(2)
                 val blu = color.blue.toString(2)
 
-                val redNew = red.substring(0..red.length - 2) + "1"
+                val redNew = red.substring(0..red.length - 2) + "1"  // newcolors to binary and cahnge the last to character "1"
                 val greNew = gre.substring(0..gre.length - 2) + "1"
                 val bluNew = blu.substring(0..blu.length - 2) + "1"
-
-                println("${red.toInt(2)}, ${gre.toInt(2)}, ${blu.toInt(2)}")
+                
                 val setColor = Color(redNew.toInt(2), greNew.toInt(2), bluNew.toInt(2))
-                myImage.setRGB(x, y, setColor.rgb)
+                newImage.setRGB(x, y, setColor.rgb)  // set new color in newImage
             }
         }
-
-        saveImage(myImage, outputImageFile)
-
+        saveImage(newImage, newImageFile)
         println("Image $outputImageFile is saved.")
+
     }
-    catch (e: FileNotFoundException) {
+    catch (e: IIOException) {
         println("Can't read input file!")
     }
 }
 
-fun main() {
+fun saveImage(image: BufferedImage, imageFile: File) {
+    ImageIO.write(image, "png", imageFile)
+}
 
-    do {
+fun main(){
+
+    do{
         printTask()
         val inp: String = readln()
-        when (inp) {
+        when(inp) {
             "hide" -> hide()
-            "show" -> println("Obtaining message from image.")
+            "show" -> println("show another massege")
             "exit" -> println("Bye!")
             else -> println("Wrong task: $inp")
         }
+
     }
     while (inp != "exit")
 
 }
-
