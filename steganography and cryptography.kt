@@ -20,6 +20,10 @@ fun hide() {
         val newImage = BufferedImage(sourceImage.width, sourceImage.height, BufferedImage.TYPE_INT_RGB)
         val newImageFile = File(outputImageFile)  // open/create a new picture fail
 
+        val messege = readln() + "0"+"0"+"3"
+        val messegeToBin = messege.encodeToByteArray().contentToString() // encode input messege to byteArray
+
+        
         println("Input Image: $inputImageFile")
         println("Output Image: $outputImageFile")
 
