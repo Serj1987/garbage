@@ -8,7 +8,13 @@ fun printTask() {
     println("Task (hide, show, exit):")
 }
 
+fun saveImage(image: BufferedImage, imageFile: File) {
+    ImageIO.write(image, "png", imageFile)
+}
+
 fun hide() {
+//"/home/sergey/Рабочий стол/square.png"
+//    "/home/sergey/Рабочий стол/square1.png")
     try{
         println("Input image file:")
         val inputImageFile: String = readln()
@@ -18,41 +24,80 @@ fun hide() {
         println("Output image file:")
         val outputImageFile: String = readln()
         val newImage = BufferedImage(sourceImage.width, sourceImage.height, BufferedImage.TYPE_INT_RGB)
-        val newImageFile = File(outputImageFile)  // open/create a new picture fail
+        val newImageFile = File(outputImageFile)  // open/create a new picture file
 
-        val messege = readln() + "0"+"0"+"3"
-        val messegeToBin = messege.encodeToByteArray().contentToString() // encode input messege to byteArray
+        println("Message to hide:")
+        var message = (readln() + "0"+"0"+"3"+"3")
+        val inputFile = File(inputImageFile)
+        val myImage = ImageIO.read(inputFile)
 
-        
-        println("Input Image: $inputImageFile")
-        println("Output Image: $outputImageFile")
+        if (message.length > sourceImage.width * sourceImage.height) {
+            println("The input image is not large enough to hold this message.")
+        } else {
 
-        for (x in 0 until sourceImage.width) {
-            for (y in 0 until sourceImage.height) {
-                val color = Color(sourceImage.getRGB(x, y))
-                val red = color.red.toString(2)  // get colors from source image and take it to binary
-                val gre = color.green.toString(2)
-                val blu = color.blue.toString(2)
+            for (x in 0 until sourceImage.width)
+                loop@ for (y in 0 until sourceImage.height) {
 
-                val redNew = red.substring(0..red.length - 2) + "1"  // newcolors to binary and cahnge the last to character "1"
-                val greNew = gre.substring(0..gre.length - 2) + "1"
-                val bluNew = blu.substring(0..blu.length - 2) + "1"
+                    val color = Color(myImage.getRGB(x, y))
+                    val red = color.red
+                    val gre = color.green
+                    while (message.length > 1) {
+                        val bluNew = message[0].toInt()
+                        val setColor = Color(red, gre, bluNew)
+                        newImage.setRGB(x, y, setColor.rgb)
+                        message = if (message.length > 1) message.substring(1)
+                        else {
+                            message[0].toString()
+                            break@loop
+                        }
+                        continue@loop
+                    }
+                    val blue = color.blue
+                    val setColor = Color(red, gre, blue)
+                    newImage.setRGB(x, y, setColor.rgb)
+                    //break
+                }
 
-                val setColor = Color(redNew.toInt(2), greNew.toInt(2), bluNew.toInt(2))
-                newImage.setRGB(x, y, setColor.rgb)  // set new color in newImage
-            }
+            saveImage(newImage, newImageFile)
+            println("Message saved in $outputImageFile image.")
         }
-        saveImage(newImage, newImageFile)
-        println("Image $outputImageFile is saved.")
-
     }
     catch (e: IIOException) {
         println("Can't read input file!")
     }
 }
 
-fun saveImage(image: BufferedImage, imageFile: File) {
-    ImageIO.write(image, "png", imageFile)
+fun show() {
+    try{
+        println("Input image file:")
+        val inputImageFile: String = readln()
+        val imageFile = File(inputImageFile)  // open file of source picture
+        val sourceImg = ImageIO.read(imageFile)
+
+        fun append(arr: Array<Byte>, element: Int): Array<Byte> {
+            val list: MutableList<Byte> = arr.toMutableList()
+            list.add(element.toByte())
+            return list.toTypedArray()
+        }
+
+        var encodeMessage = ""
+        var bmessage = emptyArray<Byte>()
+        loop@for (x in 0 until sourceImg.width) for (y in 0 until sourceImg.height) {
+            val color = Color(sourceImg.getRGB(x, y))
+            val blue = color.blue
+            bmessage = append(bmessage, blue)
+            encodeMessage += blue.toChar().toString()
+            if ((encodeMessage.length > 3) && (encodeMessage.substring(encodeMessage.length - 3) == "003"))
+                break@loop
+        }
+
+        val s = String(bmessage.toByteArray(), Charsets.UTF_8)
+        println("Message:")
+        println(s.substring(0, s.length - 3))
+    }
+    catch (e: IIOException) {
+        println("Can't read input file!")
+    }
 }
 
 fun main(){
@@ -62,12 +107,10 @@ fun main(){
         val inp: String = readln()
         when(inp) {
             "hide" -> hide()
-            "show" -> println("show another massege")
+            "show" -> show()
             "exit" -> println("Bye!")
             else -> println("Wrong task: $inp")
         }
-
     }
     while (inp != "exit")
-
 }
